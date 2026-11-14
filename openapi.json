@@ -1,0 +1,817 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "AI Trash-Loop API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Health Api V1 Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/repositories": {
+      "get": {
+        "summary": "List Repositories",
+        "operationId": "list_repositories_api_v1_repositories_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/RepositoryOut"
+                  },
+                  "type": "array",
+                  "title": "Response List Repositories Api V1 Repositories Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add Repository",
+        "operationId": "add_repository_api_v1_repositories_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RepositoryCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RepositoryOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/repositories/{repo_id}": {
+      "get": {
+        "summary": "Get Repository",
+        "operationId": "get_repository_api_v1_repositories__repo_id__get",
+        "parameters": [
+          {
+            "name": "repo_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Repo Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RepositoryOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/repositories/{repo_id}/analyses": {
+      "post": {
+        "summary": "Start Analysis",
+        "operationId": "start_analysis_api_v1_repositories__repo_id__analyses_post",
+        "parameters": [
+          {
+            "name": "repo_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Repo Id"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List Analyses",
+        "operationId": "list_analyses_api_v1_repositories__repo_id__analyses_get",
+        "parameters": [
+          {
+            "name": "repo_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Repo Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnalysisOut"
+                  },
+                  "title": "Response List Analyses Api V1 Repositories  Repo Id  Analyses Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/analyses/{analysis_id}": {
+      "get": {
+        "summary": "Get Analysis",
+        "operationId": "get_analysis_api_v1_analyses__analysis_id__get",
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Analysis Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisOut"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/analyses/{analysis_id}/report": {
+      "get": {
+        "summary": "Get Report",
+        "operationId": "get_report_api_v1_analyses__analysis_id__report_get",
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Analysis Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisReport"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnalysisOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "repository_id": {
+            "type": "integer",
+            "title": "Repository Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "commit_sha": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Commit Sha"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ReportSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "repository_id",
+          "status",
+          "created_at"
+        ],
+        "title": "AnalysisOut"
+      },
+      "AnalysisReport": {
+        "properties": {
+          "schema_version": {
+            "type": "string",
+            "title": "Schema Version",
+            "default": "0.1.0"
+          },
+          "engine_version": {
+            "type": "string",
+            "title": "Engine Version"
+          },
+          "repo": {
+            "$ref": "#/components/schemas/RepoInfo"
+          },
+          "analyzed_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Analyzed At"
+          },
+          "context_files": {
+            "items": {
+              "$ref": "#/components/schemas/ContextFile"
+            },
+            "type": "array",
+            "title": "Context Files",
+            "default": []
+          },
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/Finding"
+            },
+            "type": "array",
+            "title": "Findings",
+            "default": []
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/Metrics",
+            "default": {
+              "files_scanned": 0,
+              "est_tokens_total": 0,
+              "est_tokens_duplicated": 0,
+              "duration_ms": 0,
+              "llm_input_tokens": 0,
+              "llm_output_tokens": 0
+            }
+          }
+        },
+        "type": "object",
+        "required": [
+          "engine_version",
+          "repo",
+          "analyzed_at"
+        ],
+        "title": "AnalysisReport"
+      },
+      "ContextFile": {
+        "properties": {
+          "path": {
+            "type": "string",
+            "title": "Path"
+          },
+          "kind": {
+            "$ref": "#/components/schemas/FileKind"
+          },
+          "token_estimate": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Token Estimate",
+            "description": "ESTIMATE, not an exact tokenizer count"
+          },
+          "load_mode": {
+            "$ref": "#/components/schemas/LoadMode",
+            "default": "unknown"
+          }
+        },
+        "type": "object",
+        "required": [
+          "path",
+          "kind",
+          "token_estimate"
+        ],
+        "title": "ContextFile"
+      },
+      "Evidence": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "title": "File",
+            "description": "Path relative to repo root"
+          },
+          "line_start": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Line Start"
+          },
+          "line_end": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Line End"
+          },
+          "quote": {
+            "type": "string",
+            "title": "Quote",
+            "description": "Exact text from the file"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file",
+          "line_start",
+          "line_end",
+          "quote"
+        ],
+        "title": "Evidence"
+      },
+      "FileKind": {
+        "type": "string",
+        "enum": [
+          "claude_md",
+          "agents_md",
+          "readme",
+          "rule",
+          "skill",
+          "adr",
+          "doc",
+          "other"
+        ],
+        "title": "FileKind"
+      },
+      "Finding": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/FindingType"
+          },
+          "severity": {
+            "$ref": "#/components/schemas/Severity"
+          },
+          "confidence": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence"
+          },
+          "method": {
+            "$ref": "#/components/schemas/Method"
+          },
+          "summary": {
+            "type": "string",
+            "title": "Summary"
+          },
+          "evidence": {
+            "items": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Evidence"
+          },
+          "recommendation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recommendation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "severity",
+          "confidence",
+          "method",
+          "summary",
+          "evidence"
+        ],
+        "title": "Finding"
+      },
+      "FindingType": {
+        "type": "string",
+        "enum": [
+          "duplicate",
+          "conflict",
+          "broken_reference",
+          "stale"
+        ],
+        "title": "FindingType"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LoadMode": {
+        "type": "string",
+        "enum": [
+          "always",
+          "on_demand",
+          "unknown"
+        ],
+        "title": "LoadMode"
+      },
+      "Method": {
+        "type": "string",
+        "enum": [
+          "deterministic",
+          "llm"
+        ],
+        "title": "Method"
+      },
+      "Metrics": {
+        "properties": {
+          "files_scanned": {
+            "type": "integer",
+            "title": "Files Scanned",
+            "default": 0
+          },
+          "est_tokens_total": {
+            "type": "integer",
+            "title": "Est Tokens Total",
+            "description": "Estimated tokens across context files",
+            "default": 0
+          },
+          "est_tokens_duplicated": {
+            "type": "integer",
+            "title": "Est Tokens Duplicated",
+            "description": "Estimated tokens in duplicated passages",
+            "default": 0
+          },
+          "duration_ms": {
+            "type": "integer",
+            "title": "Duration Ms",
+            "default": 0
+          },
+          "llm_input_tokens": {
+            "type": "integer",
+            "title": "Llm Input Tokens",
+            "default": 0
+          },
+          "llm_output_tokens": {
+            "type": "integer",
+            "title": "Llm Output Tokens",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "Metrics"
+      },
+      "RepoInfo": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "commit_sha": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Commit Sha"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "RepoInfo"
+      },
+      "ReportSummary": {
+        "properties": {
+          "files_scanned": {
+            "type": "integer",
+            "title": "Files Scanned"
+          },
+          "est_tokens_total": {
+            "type": "integer",
+            "title": "Est Tokens Total",
+            "description": "ESTIMATE (~4 chars/token) over all discovered markdown files"
+          },
+          "est_tokens_duplicated": {
+            "type": "integer",
+            "title": "Est Tokens Duplicated",
+            "description": "ESTIMATE of tokens in redundant copies"
+          },
+          "findings_total": {
+            "type": "integer",
+            "title": "Findings Total"
+          },
+          "findings_by_type": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Findings By Type"
+          },
+          "findings_by_severity": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Findings By Severity"
+          }
+        },
+        "type": "object",
+        "required": [
+          "files_scanned",
+          "est_tokens_total",
+          "est_tokens_duplicated",
+          "findings_total",
+          "findings_by_type",
+          "findings_by_severity"
+        ],
+        "title": "ReportSummary"
+      },
+      "RepositoryCreate": {
+        "properties": {
+          "url": {
+            "type": "string",
+            "title": "Url",
+            "description": "https://github.com/<owner>/<repo> (or a local path when ALLOW_LOCAL_PATHS=1)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "url"
+        ],
+        "title": "RepositoryCreate"
+      },
+      "RepositoryOut": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "latest_analysis": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalysisOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "source",
+          "kind",
+          "created_at"
+        ],
+        "title": "RepositoryOut"
+      },
+      "Severity": {
+        "type": "string",
+        "enum": [
+          "info",
+          "low",
+          "medium",
+          "high"
+        ],
+        "title": "Severity"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
